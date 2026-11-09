@@ -1,9 +1,9 @@
 import { setup } from '@flun/dns-auto-ssl';
-import fs from 'node:fs';
 import { X509Certificate } from 'node:crypto';
+import fs from 'node:fs';
 
 // 2. 直接调用 setup 函数(顶层 await,无需 async 包装)
-const { domains, certPath, keyPath, pfxPath, renewTaskConfigured } = await setup({
+const { certPath, domains, keyPath, pfxPath, renewTaskConfigured } = await setup({
 	// ---------- 必填项 ----------
 	email: 'you@example.com',                    // 你的邮箱,用于 Let's Encrypt 通知
 	domains: ['example.com', 'www.example.com'], // 需要证书的域名列表(支持多个)
@@ -44,4 +44,4 @@ if (cert.subjectAltName?.includes(`DNS:${domains[0]}`)) console.log('✓ 验证�
 
 // 导出结果供其它模块使用(注意如果有导出需求建议注释或删除步骤3和4的验证代码及辅助导入的模块,
 // 避免无畏的文件读取和证书解析)
-export { domains, certPath, keyPath, pfxPath };
+export { certPath, domains, keyPath, pfxPath };

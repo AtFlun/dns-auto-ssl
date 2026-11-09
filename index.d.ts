@@ -1,17 +1,17 @@
 import { setup } from './lib/certificate.js';
 import { getLegoPath, runLego } from './lib/lego.js';
 import {
-    dnsAutoSslDir, acmeDirectory, execPromise, spawn, path, fs, getDirname, platform, isWindows,
-    dnsAutoSslHome, getRenewStampPath, tmpDir
+    fs, path, platform, spawn, acmeDirectory, dnsAutoSslDir, dnsAutoSslHome, isWindows, tmpDir,
+    execPromise, getDirname, getRenewStampPath
 } from './lib/shard.js';
 
 // =================================== lib/certificate.js ===================================
 /**
  * ```js
  * // 文件导出内容
- * setupCertificate(); // 证书申请 + 自动续期任务安装
+ * setup();            // 证书申请 + 自动续期任务安装
  * ```
- * >查看定义:@see {@link setupCertificate}
+ * >查看定义:@see {@link setup}
  */
 declare module './lib/certificate.js' {
     export * from './lib/certificate.js';
@@ -30,35 +30,31 @@ declare module './lib/lego.js' {
     export * from './lib/lego.js';
 }
 
-// =================================== lib/shared.js ===================================
+// =================================== lib/shard.js ===================================
 /**
  * 共享模块,导出在多个文件中使用的常用函数和模块
  * ```js
+ * // 模块参数:
+ * fs, path, platform, spawn; // Node.js 内置模块与子进程、平台相关能力
  * // 公共常量:
- * const dnsAutoSslDir;  // 存放证书和相关文件的目录路径
- * const acmeDirectory;  // ACME协议的目录URL,用于与证书颁发机构交互
- * const dnsAutoSslHome; // 用户主目录路径,用于存放lego等相关文件
+ * const acmeDirectory;  // ACME 协议的目录 URL,用于与证书颁发机构交互
+ * const dnsAutoSslDir;  // 存放证书和相关文件的目录名
+ * const dnsAutoSslHome; // 用户主目录路径,用于存放 lego 等相关文件
+ * const isWindows;      // 当前操作系统是否为 Windows 的布尔值
  * const tmpDir;         // 系统临时目录路径,用于存放临时文件
- * const isWindows;      // 当前操作系统是否为Windows的布尔值
- * // 外部包函数
- * spawn();              // 子进程生成函数,提供回调和Promise两种接口
- * platform();           // 获取当前操作系统平台的函数,用于判断是否为Windows等操作系统
- * tmpDir();             // 获取系统临时目录路径的函数,用于在不同操作系统上获取临时目录路径
- * 模块:
- * path, fs;             // Node.js内置模块,提供文件路径处理、文件系统操作等功能
  * // 自定义函数:
- * execPromise();        // 将 child_process.exec 包装成 Promise 的函数,方便使用 async/await 进行异步操作
- * getDirname();         // 获取当前模块目录路径的函数,用于在ES模块环境中替代__dirname变量的功能
- * getRenewStampPath(); // 获取续期标志文件路径的函数,用于存储自动续期任务的状态信息
+ * execPromise();        // 将 child_process.exec 包装成 Promise,便于 async/await
+ * getDirname();         // 获取当前模块目录路径,替代 __dirname
+ * getRenewStampPath();  // 获取续期标志文件路径,用于存储自动续期任务状态
  * ```
  * >查看定义:
- * - 公共常量:{@link dnsAutoSslDir}、{@link acmeDirectory}、{@link dnsAutoSslHome}、{@link tmpDir}、{@link isWindows}
- * - 外部包函数:{@link spawn}、{@link platform}、{@link tmpDir}
- * - 模块:{@link path}、{@link fs}
+ * - 模块参数:{@link fs}、{@link path}、{@link platform}、{@link spawn}
+ * - 公共常量:{@link acmeDirectory}、{@link dnsAutoSslDir}、{@link dnsAutoSslHome}、{@link isWindows}、
+ *   {@link tmpDir}
  * - 自定义函数:{@link execPromise}、{@link getDirname}、{@link getRenewStampPath}
  */
-declare module './lib/shared.js' {
-    export * from './lib/shared.js';
+declare module './lib/shard.js' {
+    export * from './lib/shard.js';
 }
 
 // =================================== 模块导出入口 ===================================
@@ -74,7 +70,7 @@ declare module './lib/shared.js' {
  *   import { setup } from '@flun/dns-auto-ssl';
  *
  *   try {
- *       const { domains, certPath, keyPath, renewTaskConfigured } = await setup({
+ *       const { certPath, domains, keyPath, renewTaskConfigured } = await setup({
  *           email: 'you@example.com',                       // 你的邮箱,用于 Let's Encrypt 通知
  *           domains: ['example.com', 'www.example.com'],    // 需要证书的域名列表(支持多个)
  *           dnsProvider: 'alidns',                          // DNS 服务商代码:当前以阿里云为例
@@ -100,7 +96,7 @@ declare module './lib/shared.js' {
  *       process.exit(1);
  *   }
  *   // 导出结果供其它模块使用(注意如果有导出需求建议注释或删除打印代码,避免无畏的文件读取和证书解析)
- *   export { domains, certPath, keyPath, pfxPath };
+ *   export { certPath, domains, keyPath, pfxPath };
  */
 declare module './index.js' {
     export { setup } from './lib/certificate.js';

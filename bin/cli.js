@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 import chalk from 'chalk';
 import { Command } from 'commander';
-import { dnsAutoSslDir } from '../lib/shard.js';
-import { setup } from '../index.js';
 import { copyFile } from '../copy-files.js';
+import { setup } from '../index.js';
+import { dnsAutoSslDir } from '../lib/shard.js';
 
 // 输出命令用法与 setup 选项;
 const printHelp = program => {
