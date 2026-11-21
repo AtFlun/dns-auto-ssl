@@ -16,15 +16,15 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/OpenFlun/dns-auto-ssl.git"
+    "url": "git+https://github.com/AtFlun/dns-auto-ssl.git"
   },
   "gitee": {
     "type": "git",
-    "url": "git+https://gitee.com/OpenFlun/dns-auto-ssl.git"
+    "url": "git+https://gitee.com/AtFlun/dns-auto-ssl.git"
   },
-  "homepage": "https://github.com/OpenFlun/dns-auto-ssl#readme",
+  "homepage": "https://github.com/AtFlun/dns-auto-ssl#readme",
   "bugs": {
-    "url": "https://github.com/OpenFlun/dns-auto-ssl/issues"
+    "url": "https://github.com/AtFlun/dns-auto-ssl/issues"
   },
   "publishConfig": {
     "access": "public"
